@@ -14,6 +14,8 @@ namespace WebApplication.Models
         [Required]
         public int waga { get; set; }
         [Required]
+        public int nazwa { get; set; }
+        [Required]
         public int kalorie { get; set; }
         [Required, ForeignKey("kategoria")]
         public int id_kategorii { get; set; }
