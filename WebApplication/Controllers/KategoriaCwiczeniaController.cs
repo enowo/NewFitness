@@ -27,6 +27,11 @@ namespace WebApplication.Controllers
         // GET: KategoriaCwiczenia
         public async Task<IActionResult> Index()
         {
+            KategoriaCwiczenia defaultCategory = _context.kategoriaCwiczenia
+                                                         .Where(k => k.nazwa == "inne")
+                                                         .FirstOrDefault();
+            ViewBag.DefaultCategory = defaultCategory;
+
             return View(await _context.kategoriaCwiczenia.ToListAsync());
         }
 
@@ -165,10 +170,13 @@ namespace WebApplication.Controllers
             if (!this.isTrainer())
                 return RedirectToAction("Index");
 
-            List<Cwiczenie> cwiczenia = _context.cwiczenia.Where(k => k.id_kategorii == id).ToList();
             KategoriaCwiczenia defaultCategory = _context.kategoriaCwiczenia
                                                          .Where(k => k.nazwa == "inne")
                                                          .FirstOrDefault();
+            if(defaultCategory.id_kategorii == id)
+                return RedirectToAction("Index");
+
+            List<Cwiczenie> cwiczenia = _context.cwiczenia.Where(k => k.id_kategorii == id).ToList();
 
             foreach (Cwiczenie cw in cwiczenia)
                 cw.id_kategorii = defaultCategory.id_kategorii;

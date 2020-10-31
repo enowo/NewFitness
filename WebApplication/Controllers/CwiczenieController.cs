@@ -25,6 +25,8 @@ namespace WebApplication.Controllers
         // GET: Cwiczenie
         public async Task<IActionResult> Index()
         {
+            ViewBag.isTrainer = isTrainer();
+
             var myContext = _context.cwiczenia.Include(c => c.kategoria);
             return View(await myContext.ToListAsync());
         }

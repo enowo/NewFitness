@@ -26,9 +26,15 @@
                 @Html.DisplayFor(modelItem => item.nazwa)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.id_kategorii">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.id_kategorii">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.id_kategorii">Delete</a>
+                <a asp-action="Details" asp-route-id="@item.id_kategorii">Details</a> <br />
+
+                @if (item.id_kategorii != ViewBag.DefaultCategory.id_kategorii)
+                {
+
+                    <a asp-action="Delete" asp-route-id="@item.id_kategorii">Delete</a> <br />
+                    <a asp-action="Edit" asp-route-id="@item.id_kategorii">Edit</a> <br />
+                }
+
             </td>
         </tr>
 }

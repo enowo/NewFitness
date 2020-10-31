@@ -44,9 +44,14 @@
                 @Html.DisplayFor(modelItem => item.kategoria.nazwa)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.id_cwiczenia">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.id_cwiczenia">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.id_cwiczenia">Delete</a>
+                <a asp-action="Details" asp-route-id="@item.id_cwiczenia">Details</a> <br />
+
+                @if (ViewBag.isTrainer)
+                {
+                    <a asp-action="Edit" asp-route-id="@item.id_cwiczenia">Edit</a> <br />
+                    <a asp-action="Delete" asp-route-id="@item.id_cwiczenia">Delete</a> <br />
+                }
+
             </td>
         </tr>
 }
