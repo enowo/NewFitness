@@ -28,14 +28,33 @@
 
                 </div>
                 <div>
-                    <ul class="nav navbar-nav ml-auto w-100 justify-content-end">
-                        <li class="nav-item">
-                            <a class="nav-link text-light" href="/identity/Account/Register">Register</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-light" href="/identity/Account/Login">Login</a>
-                        </li>
-                    </ul>
+                    @{ if (User.Identity.IsAuthenticated)
+                        {
+                            <ul class="nav navbar-nav ml-auto w-100 justify-content-end">
+                                <li class="nav-item text-light">
+                                    <p>@User.Identity.Name</p>
+                                </li>
+                                <li class="nav-item">
+                                    <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout"
+                                          asp-route-returnUrl="@Url.Page("/", new { area = "" })"
+                                          method="post">
+                                        <button type="submit" class="nav-link btn btn-link text-light">Logout</button>
+                                    </form>
+                                </li>
+                            </ul> 
+                        }
+                        else
+                        {
+                            <ul class="nav navbar-nav ml-auto w-100 justify-content-end">
+                                <li class="nav-item">
+                                    <a class="nav-link text-light" href="/identity/Account/Register">Register</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-light" href="/identity/Account/Login">Login</a>
+                                </li>
+                            </ul>
+                        }
+                    }
                 </div>
             </div>
         </nav>

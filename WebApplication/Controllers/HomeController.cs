@@ -22,7 +22,6 @@ namespace WebApplication.Controllers
 
         public IActionResult Index()
         {
-            
             return View();
         }
 
