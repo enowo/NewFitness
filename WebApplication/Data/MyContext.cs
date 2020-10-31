@@ -157,5 +157,6 @@ namespace WebApplication.Data
         public DbSet<Rola> role { get; set; }
         public DbSet<KategoriaSkladnikow> kategoriaSkladnikow { get; set; }
         public DbSet<WebApplication.Models.RolaUzytkownika> RolaUzytkownika { get; set; }
+        public IEnumerable<object> Rola { get; internal set; }
     }
 }
