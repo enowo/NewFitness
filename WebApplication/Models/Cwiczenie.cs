@@ -24,5 +24,10 @@ namespace WebApplication.Models
         public virtual KategoriaCwiczenia kategoria { get; set; }
         public virtual ICollection<TreningSzczegoly> treningi { get; set; }
 
+        public override string ToString()
+        {
+            return nazwa;
+        }
+
     }
 }

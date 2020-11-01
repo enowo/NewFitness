@@ -88,8 +88,15 @@ namespace WebApplication
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
+                    name: "exerciseDelete",
+                    pattern: "trening/deleteexercise/{idt}/{idc}",
+                    defaults: new { controller = "Trening", action = "DeleteExercise" });
+
+                endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+
                 endpoints.MapRazorPages();
             });
             

@@ -20,5 +20,10 @@ namespace WebApplication.Areas.Identity.Data
         public virtual ICollection<Posilek> posilki { get; set; }
         public virtual ICollection<HistoriaUzytkownika> historiaUzytkownika { get; set; }
 
+        public override String ToString()
+        {
+            return login;
+        }
+    
     }
 }

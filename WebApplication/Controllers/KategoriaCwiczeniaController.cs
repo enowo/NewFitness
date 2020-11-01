@@ -186,6 +186,7 @@ namespace WebApplication.Controllers
             var kategoriaCwiczenia = await _context.kategoriaCwiczenia.FindAsync(id);
             _context.kategoriaCwiczenia.Remove(kategoriaCwiczenia);
             await _context.SaveChangesAsync();
+
             return RedirectToAction(nameof(Index));
         }
 

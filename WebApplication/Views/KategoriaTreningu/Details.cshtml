@@ -11,14 +11,34 @@
     <h4>KategoriaTreningu</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.nazwa)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.nazwa)
         </dd>
     </dl>
+    <hr />
 </div>
+
+<div>
+    <ul>
+        @foreach (Trening t in ViewBag.trainings)
+        {
+            @if (t.id_uzytkownika == ViewBag.userId || ViewBag.trainersIds.Contains(t.id_uzytkownika))
+            {
+            <li>
+                Nazwa: 
+                <a asp-controller="Trening" asp-action="Details">
+                    @t.nazwa
+                </a>
+            </li>
+            }
+         }
+    </ul>
+
+</div>
+
 <div>
     <a asp-action="Edit" asp-route-id="@Model.id_kategorii">Edit</a> |
     <a asp-action="Index">Back to List</a>

@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.Xml;
 using System.Threading.Tasks;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +13,7 @@ using WebApplication.Models;
 
 namespace WebApplication.Controllers
 {
+    [Authorize]
     public class TreningController : Controller
     {
         private readonly MyContext _context;
@@ -23,6 +27,21 @@ namespace WebApplication.Controllers
         public async Task<IActionResult> Index()
         {
             var myContext = _context.treningi.Include(t => t.kategoria).Include(t => t.uzytkownik);
+
+            ViewBag.userId = int.Parse(User.Identity.GetUserId());
+
+            Rola usersRole = _context.role.Include(k => k.uzytkownicy)
+                                          .FirstOrDefault(m => m.nazwa == "trener");
+
+            List<int> trainersIds = new List<int>();
+            foreach (var user in usersRole.uzytkownicy)
+            {
+                trainersIds.Add(user.id_uzytkownika);
+            }
+
+            ViewBag.trainersIds = trainersIds;
+
+
             return View(await myContext.ToListAsync());
         }
 
@@ -38,6 +57,14 @@ namespace WebApplication.Controllers
                 .Include(t => t.kategoria)
                 .Include(t => t.uzytkownik)
                 .FirstOrDefaultAsync(m => m.id_treningu == id);
+
+            ViewBag.trainingDetails = _context.treningSzczegoly.Where(k => k.id_treningu == id)
+                                        .Include(k => k.cwiczenie)
+                                        .ToList();
+
+            ViewBag.userId = int.Parse(this.User.Identity.GetUserId());
+            ViewBag.treningOwner = trening.id_uzytkownika;
+
             if (trening == null)
             {
                 return NotFound();
@@ -50,7 +77,6 @@ namespace WebApplication.Controllers
         public IActionResult Create()
         {
             ViewData["id_kategorii"] = new SelectList(_context.kategoriaTreningu, "id_kategorii", "nazwa");
-            ViewData["id_uzytkownika"] = new SelectList(_context.uzytkownicy, "Id", "Id");
             return View();
         }
 
@@ -59,8 +85,9 @@ namespace WebApplication.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("id_treningu,nazwa,id_kategorii,id_uzytkownika")] Trening trening)
+        public async Task<IActionResult> Create([Bind("id_treningu,nazwa,id_kategorii")] Trening trening)
         {
+            trening.id_uzytkownika = int.Parse(User.Identity.GetUserId());
             if (ModelState.IsValid)
             {
                 _context.Add(trening);
@@ -68,7 +95,6 @@ namespace WebApplication.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["id_kategorii"] = new SelectList(_context.kategoriaTreningu, "id_kategorii", "nazwa", trening.id_kategorii);
-            ViewData["id_uzytkownika"] = new SelectList(_context.uzytkownicy, "Id", "Id", trening.id_uzytkownika);
             return View(trening);
         }
 
@@ -85,8 +111,10 @@ namespace WebApplication.Controllers
             {
                 return NotFound();
             }
+            if (trening.id_uzytkownika != int.Parse(User.Identity.GetUserId()))
+                return RedirectToAction("Details", new { id = trening.id_treningu });
+
             ViewData["id_kategorii"] = new SelectList(_context.kategoriaTreningu, "id_kategorii", "nazwa", trening.id_kategorii);
-            ViewData["id_uzytkownika"] = new SelectList(_context.uzytkownicy, "Id", "Id", trening.id_uzytkownika);
             return View(trening);
         }
 
@@ -95,12 +123,15 @@ namespace WebApplication.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("id_treningu,nazwa,id_kategorii,id_uzytkownika")] Trening trening)
+        public async Task<IActionResult> Edit(int id, [Bind("id_treningu,nazwa,id_kategorii")] Trening trening)
         {
             if (id != trening.id_treningu)
             {
                 return NotFound();
             }
+
+            if (trening.id_uzytkownika != int.Parse(User.Identity.GetUserId()))
+                return RedirectToAction("Details", new { id = trening.id_treningu });
 
             if (ModelState.IsValid)
             {
@@ -123,7 +154,6 @@ namespace WebApplication.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["id_kategorii"] = new SelectList(_context.kategoriaTreningu, "id_kategorii", "nazwa", trening.id_kategorii);
-            ViewData["id_uzytkownika"] = new SelectList(_context.uzytkownicy, "Id", "Id", trening.id_uzytkownika);
             return View(trening);
         }
 
@@ -144,6 +174,9 @@ namespace WebApplication.Controllers
                 return NotFound();
             }
 
+            if (trening.id_uzytkownika != int.Parse(User.Identity.GetUserId()))
+                return RedirectToAction("Details", new { id = trening.id_treningu });
+
             return View(trening);
         }
 
@@ -153,14 +186,48 @@ namespace WebApplication.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var trening = await _context.treningi.FindAsync(id);
+
+            if (trening.id_uzytkownika != int.Parse(User.Identity.GetUserId()))
+                return RedirectToAction("Details", new { id = trening.id_treningu });
+
             _context.treningi.Remove(trening);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
+        }
+
+        // POST: Trening/DeleteExercise/5/6
+        [HttpPost, ActionName("DeleteExercise")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteExercise(int idt,int idc)
+        {
+            var cwiczenie = _context.treningSzczegoly.Include(k => k.trening).First(k => k.id_cwiczenia == idt && k.id_cwiczenia == idc);
+            if (cwiczenie == null)
+                return RedirectToAction("Index");
+
+            if (cwiczenie.trening.id_uzytkownika != int.Parse(User.Identity.GetUserId()))
+                return RedirectToAction("Details", new { id = cwiczenie.id_treningu });
+
+            _context.treningSzczegoly.Remove(cwiczenie);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Details), new { id = idt});
         }
 
         private bool TreningExists(int id)
         {
             return _context.treningi.Any(e => e.id_treningu == id);
         }
+
+        private bool isTrainer()
+        {
+            int userId = int.Parse(User.Identity.GetUserId());
+            List<RolaUzytkownika> usersRoles = _context.RolaUzytkownika.Where(k => k.id_uzytkownika == userId).Include(c => c.rola).ToList();
+
+            foreach (var usersRole in usersRoles)
+                if (usersRole.rola.nazwa == "trener" || usersRole.rola.nazwa == "admin")
+                    return true;
+            return false;
+        }
     }
 }
+////////////////////////////////////////////////////////////
+// Adding an exercise -> think how to add it 
