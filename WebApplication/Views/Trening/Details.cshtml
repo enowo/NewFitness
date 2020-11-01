@@ -46,7 +46,11 @@
             Liczba powtórzeń: @trening.liczba_powtorzen
             @if (ViewBag.userId == ViewBag.treningOwner)//poprawic ten fragment trzeba wysylac dwie wartosci id
             {
-                <a asp-action="DeleteExercise" asp-route="@trening.cwiczenie.id_cwiczenia"> Usun z treningu </a>
+                <form>
+                    <a asp-route="exerciseDelete" asp-route-idt="@trening.id_treningu" asp-route-idc="@trening.id_cwiczenia">
+                        <input type="submit" value="Usun z treningu" class="btn btn-default" />
+                    </a>
+                </form>
             }
         </li>
     }
