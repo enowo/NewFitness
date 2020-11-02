@@ -212,6 +212,64 @@ namespace WebApplication.Controllers
             return RedirectToAction(nameof(Details), new { id = idt});
         }
 
+        // GET: Trening/AddExercise/5       //////////////////////////////////////////////////////////////////
+        public async Task<IActionResult> AddExercise(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var trening = await _context.treningi.FindAsync(id);
+            if (trening == null)
+            {
+                return NotFound();
+            }
+            if (trening.id_uzytkownika != int.Parse(User.Identity.GetUserId()))
+                return RedirectToAction("Details", new { id = trening.id_treningu });
+            //tutaj cos dodac
+            ViewData["id_cwiczenia"] = new SelectList(_context.cwiczenia, "id_cwiczenia", "nazwa", trening.id_kategorii);
+            return View(trening);
+        }
+
+        // POST: Trening/AddExercise/5 //////////////////////////////////////////////////////////////////////
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddExercise(int id, [Bind("id_treningu,nazwa,id_kategorii")] Trening trening)
+        {
+            if (id != trening.id_treningu)
+            {
+                return NotFound();
+            }
+
+            if (trening.id_uzytkownika != int.Parse(User.Identity.GetUserId()))
+                return RedirectToAction("Details", new { id = trening.id_treningu });
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(trening);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!TreningExists(trening.id_treningu))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            ViewData["id_kategorii"] = new SelectList(_context.kategoriaTreningu, "id_kategorii", "nazwa", trening.id_kategorii);
+            return View(trening);
+        }
+
+
         private bool TreningExists(int id)
         {
             return _context.treningi.Any(e => e.id_treningu == id);
