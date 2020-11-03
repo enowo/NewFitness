@@ -14,6 +14,7 @@ namespace WebApplication.Models
         [Required]
         public int waga { get; set; }
         [Required]
+        [Column(TypeName = "varchar(20)")]
         public int nazwa { get; set; }
         [Required]
         public int kalorie { get; set; }

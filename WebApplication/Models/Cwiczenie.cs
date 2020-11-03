@@ -12,7 +12,9 @@ namespace WebApplication.Models
         [Key]
         public int id_cwiczenia { get; set; }
         [Required]
+        [Column(TypeName = "varchar(15)")]
         public string nazwa { get; set; }
+        [Column(TypeName = "varchar(250)")]
         [Required]
         public string opis { get; set; }
         public int spalone_kalorie { get; set; }

@@ -13,6 +13,7 @@ namespace WebApplication.Models
         [Key]
         public int id_treningu { get; set; }
         [Required]
+        [Column(TypeName = "varchar(30)")]
         public string nazwa { get; set; }
         [Required, ForeignKey("kategoria")]
         public int id_kategorii { get; set; }

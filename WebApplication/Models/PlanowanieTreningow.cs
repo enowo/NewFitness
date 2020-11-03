@@ -8,7 +8,7 @@ using WebApplication.Areas.Identity.Data;
 
 namespace WebApplication.Models
 {
-    /*public class PlanowanieTreningow
+    public class PlanowanieTreningow
     {
         [Required, ForeignKey("uzytkownik")]
         public int id_uzytkownika { get; set; }
@@ -20,5 +20,5 @@ namespace WebApplication.Models
         public virtual Uzytkownik uzytkownik { get; set; }
         public virtual Trening trening { get; set; }
 
-    }*/
+    }
 }

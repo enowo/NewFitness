@@ -17,9 +17,9 @@ namespace WebApplication.Areas.Identity.Data
 
         public virtual ICollection<RolaUzytkownika> role { get; set; }
         public virtual ICollection<Trening> treningi { get; set; }
-        //public virtual ICollection<PlanowanieTreningow> planowaneTreningi { get; set; }
+        public virtual ICollection<PlanowanieTreningow> planowaneTreningi { get; set; }
         public virtual ICollection<Posilek> posilki { get; set; }
-        //public virtual ICollection<PlanowaniePosilkow> planowanePosilki { get; set; }
+        public virtual ICollection<PlanowaniePosilkow> planowanePosilki { get; set; }
         public virtual ICollection<HistoriaUzytkownika> historiaUzytkownika { get; set; }
         public virtual ICollection<Ocena> oceny { get; set; }
 

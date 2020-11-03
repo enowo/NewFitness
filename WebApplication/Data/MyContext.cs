@@ -142,12 +142,12 @@ namespace WebApplication.Data
                 .OnDelete(DeleteBehavior.Cascade);
 
 
-           /* builder.Entity<PlanowaniePosilkow>().HasKey(t => new { t.id_posilku, t.id_uzytkownika, t.data });
+            builder.Entity<PlanowaniePosilkow>().HasKey(t => new { t.id_posilku, t.id_uzytkownika, t.data });
             builder.Entity<PlanowaniePosilkow>()
                 .HasOne<Uzytkownik>(t => t.uzytkownik)
                 .WithMany(t => t.planowanePosilki)
                 .HasForeignKey(d => d.id_uzytkownika)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.NoAction);
 
             builder.Entity<PlanowaniePosilkow>()
                 .HasOne<Posilek>(t => t.posilek)
@@ -161,13 +161,13 @@ namespace WebApplication.Data
                 .HasOne<Uzytkownik>(t => t.uzytkownik)
                 .WithMany(t => t.planowaneTreningi)
                 .HasForeignKey(d => d.id_uzytkownika)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.NoAction);
 
             builder.Entity<PlanowanieTreningow>()
                 .HasOne<Trening>(t => t.trening)
                 .WithMany()
                 .HasForeignKey(d => d.id_treningu)
-                .OnDelete(DeleteBehavior.Cascade);*/
+                .OnDelete(DeleteBehavior.Cascade);
 
 
             builder.Entity<Ocena>().HasKey(t => new { t.id_uzytkownika_ocenianego, t.id_uzytkownika_oceniajacego, t.id_roli });
