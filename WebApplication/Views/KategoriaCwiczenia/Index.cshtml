@@ -28,7 +28,7 @@
             <td>
                 <a asp-action="Details" asp-route-id="@item.id_kategorii">Details</a> <br />
 
-                @if (item.id_kategorii != ViewBag.DefaultCategory.id_kategorii)
+                @if (item.id_kategorii != ViewBag.DefaultCategory.id_kategorii && ViewBag.isTrainer)
                 {
 
                     <a asp-action="Delete" asp-route-id="@item.id_kategorii">Delete</a> <br />

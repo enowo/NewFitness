@@ -200,7 +200,8 @@ namespace WebApplication.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteExercise(int idt,int idc)
         {
-            var cwiczenie = _context.treningSzczegoly.Include(k => k.trening).First(k => k.id_cwiczenia == idt && k.id_cwiczenia == idc);
+            var cwiczenie = _context.treningSzczegoly.Include(k => k.trening)
+                .FirstOrDefault(k => k.id_treningu == idt && k.id_cwiczenia == idc);
             if (cwiczenie == null)
                 return RedirectToAction("Index");
 
@@ -227,10 +228,12 @@ namespace WebApplication.Controllers
             }
             if (trening.id_uzytkownika != int.Parse(User.Identity.GetUserId()))
                 return RedirectToAction("Details", new { id = trening.id_treningu });
-            
+
+            TreningSzczegoly tszczegoly = new TreningSzczegoly();
+            tszczegoly.id_treningu = trening.id_treningu;
             ViewBag.trainingId = id;
             ViewData["id_cwiczenia"] = new SelectList(_context.cwiczenia, "id_cwiczenia", "nazwa");
-            return View(trening);
+            return View(tszczegoly);
         }
 
         // POST: Trening/AddExercise/5

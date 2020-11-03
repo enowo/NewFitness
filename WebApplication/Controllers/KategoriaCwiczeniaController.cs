@@ -31,6 +31,7 @@ namespace WebApplication.Controllers
                                                          .Where(k => k.nazwa == "inne")
                                                          .FirstOrDefault();
             ViewBag.DefaultCategory = defaultCategory;
+            ViewBag.isTrainer = isTrainer();
 
             return View(await _context.kategoriaCwiczenia.ToListAsync());
         }

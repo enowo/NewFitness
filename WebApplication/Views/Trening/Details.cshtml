@@ -30,6 +30,10 @@
             @Html.DisplayFor(model => model.uzytkownik.login)
         </dd>
     </dl>
+    @if (ViewBag.userId == ViewBag.treningOwner)
+    {
+        <a asp-action="AddExercise" asp-route-id="@Model.id_treningu">Dodaj ćwiczenie</a> <br />
+    }
 
 </div>
 <div>
@@ -46,10 +50,8 @@
             Liczba powtórzeń: @trening.liczba_powtorzen
             @if (ViewBag.userId == ViewBag.treningOwner)//poprawic ten fragment trzeba wysylac dwie wartosci id
             {
-                <form>
-                    <a asp-route="exerciseDelete" asp-route-idt="@trening.id_treningu" asp-route-idc="@trening.id_cwiczenia">
-                        <input type="submit" value="Usun z treningu" class="btn btn-default" />
-                    </a>
+                <form asp-action="DeleteExercise" asp-route-idt="@trening.id_treningu" asp-route-idc="@trening.id_cwiczenia">
+                    <input type="submit" value="Usuń ćwiczenie" class="btn btn-danger" />
                 </form>
             }
         </li>
