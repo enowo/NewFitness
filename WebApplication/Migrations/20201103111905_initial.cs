@@ -281,6 +281,7 @@ namespace WebApplication.Migrations
                     id_skladnika = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     waga = table.Column<int>(nullable: false),
+                    nazwa = table.Column<int>(nullable: false),
                     kalorie = table.Column<int>(nullable: false),
                     id_kategorii = table.Column<int>(nullable: false)
                 },
@@ -317,6 +318,37 @@ namespace WebApplication.Migrations
                     table.ForeignKey(
                         name: "FK_treningi_AspNetUsers_id_uzytkownika",
                         column: x => x.id_uzytkownika,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "oceny",
+                columns: table => new
+                {
+                    id_uzytkownika_oceniajacego = table.Column<int>(nullable: false),
+                    id_uzytkownika_ocenianego = table.Column<int>(nullable: false),
+                    id_roli = table.Column<int>(nullable: false),
+                    ocena = table.Column<double>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_oceny", x => new { x.id_uzytkownika_ocenianego, x.id_uzytkownika_oceniajacego, x.id_roli });
+                    table.ForeignKey(
+                        name: "FK_oceny_role_id_roli",
+                        column: x => x.id_roli,
+                        principalTable: "role",
+                        principalColumn: "id_roli",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_oceny_AspNetUsers_id_uzytkownika_oceniajacego",
+                        column: x => x.id_uzytkownika_oceniajacego,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_oceny_AspNetUsers_id_uzytkownika_ocenianego",
+                        column: x => x.id_uzytkownika_ocenianego,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -446,6 +478,16 @@ namespace WebApplication.Migrations
                 column: "id_uzytkownika");
 
             migrationBuilder.CreateIndex(
+                name: "IX_oceny_id_roli",
+                table: "oceny",
+                column: "id_roli");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_oceny_id_uzytkownika_oceniajacego",
+                table: "oceny",
+                column: "id_uzytkownika_oceniajacego");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_posilekSzczegoly_id_skladnika",
                 table: "posilekSzczegoly",
                 column: "id_skladnika");
@@ -500,6 +542,9 @@ namespace WebApplication.Migrations
 
             migrationBuilder.DropTable(
                 name: "historiaUzytkownika");
+
+            migrationBuilder.DropTable(
+                name: "oceny");
 
             migrationBuilder.DropTable(
                 name: "posilekSzczegoly");

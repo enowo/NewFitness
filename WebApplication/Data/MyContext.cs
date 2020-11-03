@@ -140,6 +140,55 @@ namespace WebApplication.Data
                 .WithMany(t => t.role)
                 .HasForeignKey(d => d.id_uzytkownika)
                 .OnDelete(DeleteBehavior.Cascade);
+
+
+           /* builder.Entity<PlanowaniePosilkow>().HasKey(t => new { t.id_posilku, t.id_uzytkownika, t.data });
+            builder.Entity<PlanowaniePosilkow>()
+                .HasOne<Uzytkownik>(t => t.uzytkownik)
+                .WithMany(t => t.planowanePosilki)
+                .HasForeignKey(d => d.id_uzytkownika)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<PlanowaniePosilkow>()
+                .HasOne<Posilek>(t => t.posilek)
+                .WithMany()
+                .HasForeignKey(d => d.id_posilku)
+                .OnDelete(DeleteBehavior.Cascade);
+
+
+            builder.Entity<PlanowanieTreningow>().HasKey(t => new { t.id_treningu, t.id_uzytkownika, t.data });
+            builder.Entity<PlanowanieTreningow>()
+                .HasOne<Uzytkownik>(t => t.uzytkownik)
+                .WithMany(t => t.planowaneTreningi)
+                .HasForeignKey(d => d.id_uzytkownika)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<PlanowanieTreningow>()
+                .HasOne<Trening>(t => t.trening)
+                .WithMany()
+                .HasForeignKey(d => d.id_treningu)
+                .OnDelete(DeleteBehavior.Cascade);*/
+
+
+            builder.Entity<Ocena>().HasKey(t => new { t.id_uzytkownika_ocenianego, t.id_uzytkownika_oceniajacego, t.id_roli });
+            builder.Entity<Ocena>()
+                .HasOne<Rola>(t => t.rola)
+                .WithMany()
+                .HasForeignKey(d => d.id_roli)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<Ocena>()
+                .HasOne<Uzytkownik>(t => t.oceniany)
+                .WithMany(t => t.oceny)
+                .HasForeignKey(d => d.id_uzytkownika_ocenianego)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<Ocena>()
+                .HasOne<Uzytkownik>(t => t.oceniajacy)
+                .WithMany()
+                .HasForeignKey(d => d.id_uzytkownika_oceniajacego)
+                .OnDelete(DeleteBehavior.NoAction);
+
         }
 
         public DbSet<Cwiczenie> cwiczenia { get; set; }
@@ -154,7 +203,10 @@ namespace WebApplication.Data
         public DbSet<HistoriaUzytkownika> historiaUzytkownika { get; set; }
         public DbSet<Rola> role { get; set; }
         public DbSet<KategoriaSkladnikow> kategoriaSkladnikow { get; set; }
-        public DbSet<WebApplication.Models.RolaUzytkownika> RolaUzytkownika { get; set; }
+        public DbSet<RolaUzytkownika> RolaUzytkownika { get; set; }
+        //public DbSet<PlanowaniePosilkow> planowanePosilki { get; set; }
+        //public DbSet<PlanowanieTreningow> planowaneTreningi { get; set; }
+        public DbSet<Ocena> oceny { get; set; }
         public IEnumerable<object> Rola { get; internal set; }
     }
 }

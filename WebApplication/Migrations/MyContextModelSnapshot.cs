@@ -328,6 +328,29 @@ namespace WebApplication.Migrations
                     b.ToTable("kategoriaTreningu");
                 });
 
+            modelBuilder.Entity("WebApplication.Models.Ocena", b =>
+                {
+                    b.Property<int>("id_uzytkownika_ocenianego")
+                        .HasColumnType("int");
+
+                    b.Property<int>("id_uzytkownika_oceniajacego")
+                        .HasColumnType("int");
+
+                    b.Property<int>("id_roli")
+                        .HasColumnType("int");
+
+                    b.Property<double>("ocena")
+                        .HasColumnType("float");
+
+                    b.HasKey("id_uzytkownika_ocenianego", "id_uzytkownika_oceniajacego", "id_roli");
+
+                    b.HasIndex("id_roli");
+
+                    b.HasIndex("id_uzytkownika_oceniajacego");
+
+                    b.ToTable("oceny");
+                });
+
             modelBuilder.Entity("WebApplication.Models.Posilek", b =>
                 {
                     b.Property<int>("id_posilku")
@@ -539,6 +562,27 @@ namespace WebApplication.Migrations
                     b.HasOne("WebApplication.Areas.Identity.Data.Uzytkownik", "uzytkownik")
                         .WithMany("historiaUzytkownika")
                         .HasForeignKey("id_uzytkownika")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("WebApplication.Models.Ocena", b =>
+                {
+                    b.HasOne("WebApplication.Models.Rola", "rola")
+                        .WithMany()
+                        .HasForeignKey("id_roli")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WebApplication.Areas.Identity.Data.Uzytkownik", "oceniajacy")
+                        .WithMany()
+                        .HasForeignKey("id_uzytkownika_oceniajacego")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("WebApplication.Areas.Identity.Data.Uzytkownik", "oceniany")
+                        .WithMany("oceny")
+                        .HasForeignKey("id_uzytkownika_ocenianego")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
