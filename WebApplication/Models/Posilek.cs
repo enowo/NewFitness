@@ -17,9 +17,9 @@ namespace WebApplication.Models
         public string nazwa { get; set; }
         [Required]
         public int kalorie { get; set; }
+        [Column(TypeName = "varchar(700)")]
         public string opis { get; set; }
         [Required, ForeignKey("uzytkownik")]
-        [Column(TypeName = "varchar(700)")]
         public int id_uzytkownika { get; set; }
 
         public virtual ICollection<PosilekSzczegoly> skladniki { get; set; }

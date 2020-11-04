@@ -238,11 +238,11 @@ namespace WebApplication.Migrations
 
                     b.Property<string>("nazwa")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("varchar(15)");
 
                     b.Property<string>("opis")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("varchar(250)");
 
                     b.Property<int>("spalone_kalorie")
                         .HasColumnType("int");
@@ -289,7 +289,7 @@ namespace WebApplication.Migrations
 
                     b.Property<string>("nazwa")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("varchar(15)");
 
                     b.HasKey("id_kategorii");
 
@@ -305,7 +305,7 @@ namespace WebApplication.Migrations
 
                     b.Property<string>("nazwa")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("varchar(15)");
 
                     b.HasKey("id_kategorii");
 
@@ -321,7 +321,7 @@ namespace WebApplication.Migrations
 
                     b.Property<string>("nazwa")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("varchar(15)");
 
                     b.HasKey("id_kategorii");
 
@@ -351,6 +351,42 @@ namespace WebApplication.Migrations
                     b.ToTable("oceny");
                 });
 
+            modelBuilder.Entity("WebApplication.Models.PlanowaniePosilkow", b =>
+                {
+                    b.Property<int>("id_posilku")
+                        .HasColumnType("int");
+
+                    b.Property<int>("id_uzytkownika")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("data")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("id_posilku", "id_uzytkownika", "data");
+
+                    b.HasIndex("id_uzytkownika");
+
+                    b.ToTable("PlanowaniePosilkow");
+                });
+
+            modelBuilder.Entity("WebApplication.Models.PlanowanieTreningow", b =>
+                {
+                    b.Property<int>("id_treningu")
+                        .HasColumnType("int");
+
+                    b.Property<int>("id_uzytkownika")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("data")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("id_treningu", "id_uzytkownika", "data");
+
+                    b.HasIndex("id_uzytkownika");
+
+                    b.ToTable("PlanowanieTreningow");
+                });
+
             modelBuilder.Entity("WebApplication.Models.Posilek", b =>
                 {
                     b.Property<int>("id_posilku")
@@ -366,10 +402,10 @@ namespace WebApplication.Migrations
 
                     b.Property<string>("nazwa")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("varchar(30)");
 
                     b.Property<string>("opis")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("varchar(700)");
 
                     b.HasKey("id_posilku");
 
@@ -405,7 +441,7 @@ namespace WebApplication.Migrations
 
                     b.Property<string>("nazwa")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("varchar(8)");
 
                     b.HasKey("id_roli");
 
@@ -440,8 +476,9 @@ namespace WebApplication.Migrations
                     b.Property<int>("kalorie")
                         .HasColumnType("int");
 
-                    b.Property<int>("nazwa")
-                        .HasColumnType("int");
+                    b.Property<string>("nazwa")
+                        .IsRequired()
+                        .HasColumnType("varchar(20)");
 
                     b.Property<int>("waga")
                         .HasColumnType("int");
@@ -468,7 +505,7 @@ namespace WebApplication.Migrations
 
                     b.Property<string>("nazwa")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("varchar(30)");
 
                     b.HasKey("id_treningu");
 
@@ -584,6 +621,36 @@ namespace WebApplication.Migrations
                         .WithMany("oceny")
                         .HasForeignKey("id_uzytkownika_ocenianego")
                         .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("WebApplication.Models.PlanowaniePosilkow", b =>
+                {
+                    b.HasOne("WebApplication.Models.Posilek", "posilek")
+                        .WithMany()
+                        .HasForeignKey("id_posilku")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WebApplication.Areas.Identity.Data.Uzytkownik", "uzytkownik")
+                        .WithMany("planowanePosilki")
+                        .HasForeignKey("id_uzytkownika")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("WebApplication.Models.PlanowanieTreningow", b =>
+                {
+                    b.HasOne("WebApplication.Models.Trening", "trening")
+                        .WithMany()
+                        .HasForeignKey("id_treningu")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WebApplication.Areas.Identity.Data.Uzytkownik", "uzytkownik")
+                        .WithMany("planowaneTreningi")
+                        .HasForeignKey("id_uzytkownika")
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
                 });
 
