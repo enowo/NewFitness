@@ -25,6 +25,10 @@ namespace WebApplication.Controllers
         // GET: KategoriaTreningu
         public async Task<IActionResult> Index()
         {
+            KategoriaTreningu defaultCategory = _context.kategoriaTreningu
+                                                         .Where(k => k.nazwa == "inne")
+                                                         .FirstOrDefault();
+            ViewBag.DefaultCategory = defaultCategory;
             return View(await _context.kategoriaTreningu.ToListAsync());
         }
 

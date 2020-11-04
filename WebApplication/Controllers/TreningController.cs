@@ -34,10 +34,11 @@ namespace WebApplication.Controllers
                                           .FirstOrDefault(m => m.nazwa == "trener");
 
             List<int> trainersIds = new List<int>();
-            foreach (var user in usersRole.uzytkownicy)
-            {
-                trainersIds.Add(user.id_uzytkownika);
-            }
+            if(usersRole != null)
+                foreach (var user in usersRole.uzytkownicy)
+                {
+                    trainersIds.Add(user.id_uzytkownika);
+                }
 
             ViewBag.trainersIds = trainersIds;
 
