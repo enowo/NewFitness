@@ -30,7 +30,7 @@
                 @Html.DisplayNameFor(model => model.opis)
             </th>
             <th>
-                <a asp-action="Index" asp-route-sort="@ViewData["currentSort"]">
+                <a asp-action="Index" asp-route-sort="@ViewData["currentSort"]" asp-route-searchString="@ViewData["currentSearchString"]">
                     @Html.DisplayNameFor(model => model.spalone_kalorie)
                     @if ((int)ViewData["currentSort"] == 0)
                     {
