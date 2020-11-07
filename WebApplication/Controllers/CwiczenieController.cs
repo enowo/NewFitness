@@ -23,12 +23,54 @@ namespace WebApplication.Controllers
         }
 
         // GET: Cwiczenie
-        public async Task<IActionResult> Index()
+        //sort == 0 and other data arent sorted
+        //sort == 1 data are sorted ascending
+        //sort == 2 data are sorted descending
+        public async Task<IActionResult> Index(String searchString, int sort)
         {
+            ViewData["currentSearchString"] = searchString;
+            ViewData["currentSort"] = (sort + 1)%3;
+
             ViewBag.isTrainer = isTrainer();
 
-            var myContext = _context.cwiczenia.Include(c => c.kategoria);
-            return View(await myContext.ToListAsync());
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                var exercises = _context.cwiczenia.Include(c => c.kategoria).Where(k => k.nazwa.Contains(searchString));
+                switch(sort)
+                {
+                    case 2:
+                        exercises = exercises.OrderBy(k => k.spalone_kalorie);
+                        break;
+
+                    case 1:
+                        exercises = exercises.OrderByDescending(k => k.spalone_kalorie);
+                        break;
+                    default:
+
+                        break;
+                }
+                
+                return View(await exercises.ToListAsync());
+            }
+            else
+            {
+                var exercises = _context.cwiczenia.Include(c => c.kategoria).AsQueryable();
+                switch (sort)
+                {
+                    case 2:
+                        exercises = exercises.OrderBy(k => k.spalone_kalorie);
+                        break;
+
+                    case 1:
+                        exercises = exercises.OrderByDescending(k => k.spalone_kalorie);
+                        break;
+                    default:
+
+                        break;
+                }
+
+                return View(await exercises.ToListAsync());
+            }
         }
 
         // GET: Cwiczenie/Details/5

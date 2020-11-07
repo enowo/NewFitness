@@ -25,14 +25,21 @@ namespace WebApplication.Controllers
         }
 
         // GET: KategoriaCwiczenia
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {
+            ViewData["currentSearchString"] = searchString;
+
             KategoriaCwiczenia defaultCategory = _context.kategoriaCwiczenia
                                                          .Where(k => k.nazwa == "inne")
                                                          .FirstOrDefault();
             ViewBag.DefaultCategory = defaultCategory;
             ViewBag.isTrainer = isTrainer();
 
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                return View(await _context.kategoriaCwiczenia.Where(k => k.nazwa.Contains(searchString)).ToListAsync());
+            }
+            else
             return View(await _context.kategoriaCwiczenia.ToListAsync());
         }
 

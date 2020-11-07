@@ -20,6 +20,17 @@
         </tr>
     </thead>
     <tbody>
+
+<form asp-action="Index" method="get">
+    <div class="form-actions no-color">
+        <p>
+            Szukaj: <input type="text" name="SearchString" value="@ViewData["currentSearchString"]" />
+            <input type="submit" value="Szukaj" class="btn btn-default" /> |
+            <a asp-action="Index">Wyczyść wyszukiwanie</a>
+        </p>
+    </div>
+</form>
+
 @foreach (var item in Model) {
         <tr>
             <td>

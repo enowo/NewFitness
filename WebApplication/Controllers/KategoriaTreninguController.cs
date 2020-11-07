@@ -23,13 +23,20 @@ namespace WebApplication.Controllers
         }
 
         // GET: KategoriaTreningu
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {
+            ViewData["currentSearchString"] = searchString;
             KategoriaTreningu defaultCategory = _context.kategoriaTreningu
                                                          .Where(k => k.nazwa == "inne")
                                                          .FirstOrDefault();
             ViewBag.DefaultCategory = defaultCategory;
-            return View(await _context.kategoriaTreningu.ToListAsync());
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                return View(await _context.kategoriaTreningu.Where(k => k.nazwa.Contains(searchString)).ToListAsync());
+            }
+            else
+                return View(await _context.kategoriaTreningu.ToListAsync());
         }
 
         // GET: KategoriaTreningu/Details/5

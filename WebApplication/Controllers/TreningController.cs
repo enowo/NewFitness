@@ -5,6 +5,7 @@ using System.Security.Cryptography.Xml;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -24,9 +25,9 @@ namespace WebApplication.Controllers
         }
 
         // GET: Trening
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(String searchString)
         {
-            var myContext = _context.treningi.Include(t => t.kategoria).Include(t => t.uzytkownik);
+            ViewData["currentSearchString"] = searchString;
 
             ViewBag.userId = int.Parse(User.Identity.GetUserId());
 
@@ -42,8 +43,12 @@ namespace WebApplication.Controllers
 
             ViewBag.trainersIds = trainersIds;
 
-
-            return View(await myContext.ToListAsync());
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                return View(await _context.treningi.Include(t => t.kategoria).Include(t => t.uzytkownik).Where(k => k.nazwa.Contains(searchString)).ToListAsync());
+            }
+            else
+                return View(await _context.treningi.Include(t => t.kategoria).Include(t => t.uzytkownik).ToListAsync());
         }
 
         // GET: Trening/Details/5
@@ -233,7 +238,10 @@ namespace WebApplication.Controllers
             TreningSzczegoly tszczegoly = new TreningSzczegoly();
             tszczegoly.id_treningu = trening.id_treningu;
             ViewBag.trainingId = id;
+
+           
             ViewData["id_cwiczenia"] = new SelectList(_context.cwiczenia, "id_cwiczenia", "nazwa");
+            ViewBag.categories = GetExercisesCategories(null);
             return View(tszczegoly);
         }
 
@@ -268,7 +276,6 @@ namespace WebApplication.Controllers
             return View(tszczegoly);
         }
 
-
         private bool TreningExists(int id)
         {
             return _context.treningi.Any(e => e.id_treningu == id);
@@ -283,6 +290,12 @@ namespace WebApplication.Controllers
                 if (usersRole.rola.nazwa == "trener" || usersRole.rola.nazwa == "admin")
                     return true;
             return false;
+        }
+
+        private MultiSelectList GetExercisesCategories(string[] selectedValues)
+        {
+            List<KategoriaCwiczenia> categories = _context.kategoriaCwiczenia.ToList();
+            return new MultiSelectList(categories,"id_kategorii", "nazwa", selectedValues);
         }
     }
 }
