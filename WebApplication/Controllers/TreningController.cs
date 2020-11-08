@@ -274,6 +274,10 @@ namespace WebApplication.Controllers
                 return RedirectToAction("Details", new { id = trening.id_treningu });
 
             tszczegoly.id_treningu = id;
+            if(tszczegoly.liczba_powtorzen <= 0)
+            {
+                tszczegoly.liczba_powtorzen = 1;
+            }
 
             if (ModelState.IsValid)
             {
