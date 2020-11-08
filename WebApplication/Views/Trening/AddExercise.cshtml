@@ -9,6 +9,18 @@
 
 <h4>TreningSzczegoly</h4>
 <hr />
+@Html.BeginForm("AddExercise","Trening",FormMethod.Get, new { id= ViewBag.trainingId })
+{
+    <fieldset>
+        @Html.DropDownList("category")
+
+        <p>
+            <input type="submit" value="Filtruj" />
+        </p>
+
+    </fieldset>
+}
+
 
 <div class="row">
     <div class="col-md-4">

@@ -220,7 +220,7 @@ namespace WebApplication.Controllers
         }
 
         // GET: Trening/AddExercise/5       
-        public async Task<IActionResult> AddExercise(int? id)
+        public async Task<IActionResult> AddExercise(int? id, string category)
         {
             if (id == null)
             {
@@ -238,10 +238,20 @@ namespace WebApplication.Controllers
             TreningSzczegoly tszczegoly = new TreningSzczegoly();
             tszczegoly.id_treningu = trening.id_treningu;
             ViewBag.trainingId = id;
+            
+            SelectList categories = new SelectList(_context.kategoriaCwiczenia, "id_kategorii", "nazwa");
+            List<SelectListItem> _categories = categories.ToList();
+            _categories.Insert(0, new SelectListItem() { Value = "-1", Text = "Wszystkie" });
+            ViewBag.category = new SelectList((IEnumerable<SelectListItem>)_categories, "Value", "Text");
 
-           
-            ViewData["id_cwiczenia"] = new SelectList(_context.cwiczenia, "id_cwiczenia", "nazwa");
-            ViewBag.categories = GetExercisesCategories(null);
+            if (!String.IsNullOrEmpty(category) && category != "-1")
+            {
+                int idc = int.Parse(category);
+                ViewData["id_cwiczenia"] = new SelectList(_context.cwiczenia.Where(k => k.id_kategorii == idc), "id_cwiczenia", "nazwa");
+            }
+            else
+                ViewData["id_cwiczenia"] = new SelectList(_context.cwiczenia, "id_cwiczenia", "nazwa");
+
             return View(tszczegoly);
         }
 
@@ -292,11 +302,6 @@ namespace WebApplication.Controllers
             return false;
         }
 
-        private MultiSelectList GetExercisesCategories(string[] selectedValues)
-        {
-            List<KategoriaCwiczenia> categories = _context.kategoriaCwiczenia.ToList();
-            return new MultiSelectList(categories,"id_kategorii", "nazwa", selectedValues);
-        }
     }
 }
 ////////////////////////////////////////////////////////////
