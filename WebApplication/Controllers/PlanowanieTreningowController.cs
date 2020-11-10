@@ -38,10 +38,11 @@ namespace WebApplication.Controllers
                 return NotFound();
             }
 
+            int userId = int.Parse(User.Identity.GetUserId());
             var planowanieTreningow = await _context.planowaneTreningi
                 .Include(p => p.trening)
                 .Include(p => p.uzytkownik)
-                .FirstOrDefaultAsync(m => m.id_treningu == id);
+                .FirstOrDefaultAsync(m => m.id == id);
             if (planowanieTreningow == null)
             {
                 return NotFound();
@@ -155,7 +156,7 @@ namespace WebApplication.Controllers
             var planowanieTreningow = await _context.planowaneTreningi
                 .Include(p => p.trening)
                 .Include(p => p.uzytkownik)
-                .FirstOrDefaultAsync(m => m.id_treningu == id);
+                .FirstOrDefaultAsync(m => m.id == id);
             if (planowanieTreningow == null)
             {
                 return NotFound();

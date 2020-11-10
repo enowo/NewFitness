@@ -156,7 +156,8 @@ namespace WebApplication.Data
                 .OnDelete(DeleteBehavior.Cascade);
 
 
-            builder.Entity<PlanowanieTreningow>().HasKey(t => new { t.id_treningu, t.id_uzytkownika, t.data });
+            //builder.Entity<PlanowanieTreningow>().HasKey(t => new { t.id_treningu, t.id_uzytkownika, t.data });
+            builder.Entity<PlanowanieTreningow>().HasKey(t => t.id );
             builder.Entity<PlanowanieTreningow>()
                 .HasOne<Uzytkownik>(t => t.uzytkownik)
                 .WithMany(t => t.planowaneTreningi)

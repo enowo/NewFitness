@@ -10,6 +10,8 @@ namespace WebApplication.Models
 {
     public class PlanowanieTreningow
     {
+        [Key]
+        public int id { get; set; }
         [Required, ForeignKey("uzytkownik")]
         public int id_uzytkownika { get; set; }
         [Required, ForeignKey("trening")]
