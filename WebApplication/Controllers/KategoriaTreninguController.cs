@@ -31,6 +31,8 @@ namespace WebApplication.Controllers
                                                          .FirstOrDefault();
             ViewBag.DefaultCategory = defaultCategory;
 
+            ViewBag.isTrainer = isTrainer();
+
             if (!String.IsNullOrEmpty(searchString))
             {
                 return View(await _context.kategoriaTreningu.Where(k => k.nazwa.Contains(searchString)).ToListAsync());
@@ -57,10 +59,11 @@ namespace WebApplication.Controllers
                                           .FirstOrDefault(m => m.nazwa == "trener");
 
             List<int> trainersIds = new List<int>();
-            foreach(var user in usersRole.uzytkownicy)
-            {
-                trainersIds.Add(user.id_uzytkownika);
-            }
+            if(usersRole != null)
+                foreach(var user in usersRole.uzytkownicy)
+                {
+                    trainersIds.Add(user.id_uzytkownika);
+                }
 
             ViewBag.trainersIds = trainersIds;
 
@@ -88,6 +91,9 @@ namespace WebApplication.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("id_kategorii,nazwa")] KategoriaTreningu kategoriaTreningu)
         {
+            if (!this.isTrainer())
+                return RedirectToAction("Index");
+
             if (ModelState.IsValid)
             {
                 _context.Add(kategoriaTreningu);
