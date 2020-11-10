@@ -5,9 +5,9 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Delete</h1>
+<h1>Usuń</h1>
 
-<h3>Are you sure you want to delete this?</h3>
+<h3>Jesteś pewien, że chcesz usunąć trening z listy planowanych?</h3>
 <div>
     <h4>PlanowanieTreningow</h4>
     <hr />
@@ -31,6 +31,6 @@
         <input type="hidden" asp-for="id_treningu" />
         <input type="hidden" asp-for="data" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
+        <a asp-action="Index">Powrot do listy</a>
     </form>
 </div>
