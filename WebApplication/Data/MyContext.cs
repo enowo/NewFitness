@@ -204,8 +204,8 @@ namespace WebApplication.Data
         public DbSet<Rola> role { get; set; }
         public DbSet<KategoriaSkladnikow> kategoriaSkladnikow { get; set; }
         public DbSet<RolaUzytkownika> RolaUzytkownika { get; set; }
-        //public DbSet<PlanowaniePosilkow> planowanePosilki { get; set; }
-        //public DbSet<PlanowanieTreningow> planowaneTreningi { get; set; }
+        public DbSet<PlanowaniePosilkow> planowanePosilki { get; set; }
+        public DbSet<PlanowanieTreningow> planowaneTreningi { get; set; }
         public DbSet<Ocena> oceny { get; set; }
         public IEnumerable<object> Rola { get; internal set; }
     }

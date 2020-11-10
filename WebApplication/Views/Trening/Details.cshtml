@@ -12,6 +12,8 @@
 
 <div>
     <h4>Trening</h4>
+    <br />
+    <a asp-controller="PlanowanieTreningow"  asp-action="Create" asp-route-id_string="@Model.id_treningu">Zaplanuj trening</a> <br />
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
@@ -67,7 +69,7 @@
 <div>
     @if (ViewBag.userId == ViewBag.treningOwner)
     {
-        <a asp-action="Edit" asp-route-id="@Model.id_treningu">Edit</a> <br />
+        <a asp-action="Edit" asp-route-id="@Model.id_treningu">Edytuj</a> <br />
     }
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Powrot do listy</a>
 </div>
