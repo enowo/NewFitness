@@ -1,4 +1,5 @@
 ﻿using System;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace WebApplication.Migrations
@@ -12,7 +13,7 @@ namespace WebApplication.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(maxLength: 256, nullable: true),
                     NormalizedName = table.Column<string>(maxLength: 256, nullable: true),
                     ConcurrencyStamp = table.Column<string>(nullable: true)
@@ -27,7 +28,7 @@ namespace WebApplication.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     UserName = table.Column<string>(maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(maxLength: 256, nullable: true),
                     Email = table.Column<string>(maxLength: 256, nullable: true),
@@ -55,7 +56,7 @@ namespace WebApplication.Migrations
                 columns: table => new
                 {
                     id_kategorii = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     nazwa = table.Column<string>(type: "varchar(15)", nullable: false)
                 },
                 constraints: table =>
@@ -68,7 +69,7 @@ namespace WebApplication.Migrations
                 columns: table => new
                 {
                     id_kategorii = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     nazwa = table.Column<string>(type: "varchar(15)", nullable: false)
                 },
                 constraints: table =>
@@ -81,7 +82,7 @@ namespace WebApplication.Migrations
                 columns: table => new
                 {
                     id_kategorii = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     nazwa = table.Column<string>(type: "varchar(15)", nullable: false)
                 },
                 constraints: table =>
@@ -94,7 +95,7 @@ namespace WebApplication.Migrations
                 columns: table => new
                 {
                     id_roli = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     nazwa = table.Column<string>(type: "varchar(8)", nullable: false)
                 },
                 constraints: table =>
@@ -107,7 +108,7 @@ namespace WebApplication.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     RoleId = table.Column<int>(nullable: false),
                     ClaimType = table.Column<string>(nullable: true),
                     ClaimValue = table.Column<string>(nullable: true)
@@ -128,7 +129,7 @@ namespace WebApplication.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     UserId = table.Column<int>(nullable: false),
                     ClaimType = table.Column<string>(nullable: true),
                     ClaimValue = table.Column<string>(nullable: true)
@@ -213,7 +214,7 @@ namespace WebApplication.Migrations
                 columns: table => new
                 {
                     id_historia = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     id_uzytkownika = table.Column<int>(nullable: false),
                     data = table.Column<DateTime>(nullable: false),
                     waga = table.Column<double>(nullable: false),
@@ -235,7 +236,7 @@ namespace WebApplication.Migrations
                 columns: table => new
                 {
                     id_posilku = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     nazwa = table.Column<string>(type: "varchar(30)", nullable: false),
                     kalorie = table.Column<int>(nullable: false),
                     opis = table.Column<string>(type: "varchar(700)", nullable: true),
@@ -257,7 +258,7 @@ namespace WebApplication.Migrations
                 columns: table => new
                 {
                     id_cwiczenia = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     nazwa = table.Column<string>(type: "varchar(15)", nullable: false),
                     opis = table.Column<string>(type: "varchar(250)", nullable: false),
                     spalone_kalorie = table.Column<int>(nullable: false),
@@ -279,7 +280,7 @@ namespace WebApplication.Migrations
                 columns: table => new
                 {
                     id_skladnika = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     waga = table.Column<int>(nullable: false),
                     nazwa = table.Column<string>(type: "varchar(20)", nullable: false),
                     kalorie = table.Column<int>(nullable: false),
@@ -301,7 +302,7 @@ namespace WebApplication.Migrations
                 columns: table => new
                 {
                     id_treningu = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     nazwa = table.Column<string>(type: "varchar(30)", nullable: false),
                     id_kategorii = table.Column<int>(nullable: false),
                     id_uzytkownika = table.Column<int>(nullable: false)
@@ -379,7 +380,7 @@ namespace WebApplication.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "PlanowaniePosilkow",
+                name: "planowanePosilki",
                 columns: table => new
                 {
                     id_uzytkownika = table.Column<int>(nullable: false),
@@ -388,15 +389,15 @@ namespace WebApplication.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PlanowaniePosilkow", x => new { x.id_posilku, x.id_uzytkownika, x.data });
+                    table.PrimaryKey("PK_planowanePosilki", x => new { x.id_posilku, x.id_uzytkownika, x.data });
                     table.ForeignKey(
-                        name: "FK_PlanowaniePosilkow_posilki_id_posilku",
+                        name: "FK_planowanePosilki_posilki_id_posilku",
                         column: x => x.id_posilku,
                         principalTable: "posilki",
                         principalColumn: "id_posilku",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_PlanowaniePosilkow_AspNetUsers_id_uzytkownika",
+                        name: "FK_planowanePosilki_AspNetUsers_id_uzytkownika",
                         column: x => x.id_uzytkownika,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id");
@@ -428,7 +429,7 @@ namespace WebApplication.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "PlanowanieTreningow",
+                name: "planowaneTreningi",
                 columns: table => new
                 {
                     id_uzytkownika = table.Column<int>(nullable: false),
@@ -437,15 +438,15 @@ namespace WebApplication.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PlanowanieTreningow", x => new { x.id_treningu, x.id_uzytkownika, x.data });
+                    table.PrimaryKey("PK_planowaneTreningi", x => new { x.id_treningu, x.id_uzytkownika, x.data });
                     table.ForeignKey(
-                        name: "FK_PlanowanieTreningow_treningi_id_treningu",
+                        name: "FK_planowaneTreningi_treningi_id_treningu",
                         column: x => x.id_treningu,
                         principalTable: "treningi",
                         principalColumn: "id_treningu",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_PlanowanieTreningow_AspNetUsers_id_uzytkownika",
+                        name: "FK_planowaneTreningi_AspNetUsers_id_uzytkownika",
                         column: x => x.id_uzytkownika,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id");
@@ -485,8 +486,7 @@ namespace WebApplication.Migrations
                 name: "RoleNameIndex",
                 table: "AspNetRoles",
                 column: "NormalizedName",
-                unique: true,
-                filter: "[NormalizedName] IS NOT NULL");
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetUserClaims_UserId",
@@ -512,8 +512,7 @@ namespace WebApplication.Migrations
                 name: "UserNameIndex",
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
-                unique: true,
-                filter: "[NormalizedUserName] IS NOT NULL");
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_cwiczenia_id_kategorii",
@@ -536,13 +535,13 @@ namespace WebApplication.Migrations
                 column: "id_uzytkownika_oceniajacego");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PlanowaniePosilkow_id_uzytkownika",
-                table: "PlanowaniePosilkow",
+                name: "IX_planowanePosilki_id_uzytkownika",
+                table: "planowanePosilki",
                 column: "id_uzytkownika");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PlanowanieTreningow_id_uzytkownika",
-                table: "PlanowanieTreningow",
+                name: "IX_planowaneTreningi_id_uzytkownika",
+                table: "planowaneTreningi",
                 column: "id_uzytkownika");
 
             migrationBuilder.CreateIndex(
@@ -605,10 +604,10 @@ namespace WebApplication.Migrations
                 name: "oceny");
 
             migrationBuilder.DropTable(
-                name: "PlanowaniePosilkow");
+                name: "planowanePosilki");
 
             migrationBuilder.DropTable(
-                name: "PlanowanieTreningow");
+                name: "planowaneTreningi");
 
             migrationBuilder.DropTable(
                 name: "posilekSzczegoly");

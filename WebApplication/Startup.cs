@@ -29,7 +29,7 @@ namespace WebApplication
         {
             services.AddControllersWithViews();
             services.AddDbContext<MyContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("IdentityContextConnection")));
+                options.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddDefaultIdentity<Uzytkownik>(options => options.SignIn.RequireConfirmedAccount = true)
                     .AddEntityFrameworkStores<MyContext>().AddDefaultTokenProviders();
