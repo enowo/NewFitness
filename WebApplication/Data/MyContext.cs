@@ -189,6 +189,23 @@ namespace WebApplication.Data
                 .HasForeignKey(d => d.id_uzytkownika_oceniajacego)
                 .OnDelete(DeleteBehavior.NoAction);
 
+            builder.Entity<KategoriaCwiczenia>().HasData(
+                                new { id_kategorii = 1, nazwa = "inne" });
+
+            builder.Entity<KategoriaTreningu>().HasData(
+                                new { id_kategorii = 1, nazwa = "inne" });
+
+            builder.Entity<KategoriaSkladnikow>().HasData(
+                                new { id_kategorii = 1, nazwa = "inne" });
+
+            builder.Entity<Rola>().HasData(
+                                new { id_roli = 1, nazwa = "admin" });
+
+            builder.Entity<Rola>().HasData(
+                                new { id_roli = 2, nazwa = "trener" });
+
+            builder.Entity<Rola>().HasData(
+                                new { id_roli = 3, nazwa = "dietetyk" });
         }
 
         public DbSet<Cwiczenie> cwiczenia { get; set; }
